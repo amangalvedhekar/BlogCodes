@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Image Upload with live preview</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- Main CSS File -->
+        <link rel="stylesheet" href="./css/styles.css" type="text/css" />
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script> 
+    </head>
+    <body>
+        <div class="container">
+            <div class = "alert hide-element" role="alert" id="errorMessaage"></div>
+            <div class = "alert hide-element" role="alert" id="file-error-message">
+                <span class='glyphicon glyphicon-remove-circle'></span><p></p>
+            </div>
+            <form class = "well" id="imagesUploadForm">
+                <label for="file">Select files to upload</label>                
+                <br/>
+                <!--<div class="form-group input-group">
+                    <span class='input-group-addon'>
+                        <span class="glyphicon glyphicon-camera"></span>
+                    </span>
+                    <input type="file" class="form-control" name="image" accept="image/*"/>
+                </div> -->
+               <span class="btn btn-primary btn-file">
+    Browse <input type="file" multiple/></span>
+                <span class="label label-warning label-upload-info" id="toManyFilesUploaded"></span>
+                <span class="label label-info label-upload-info" id="filesCount"></span>
+                <span class="label label-success label-upload-info" id="filesSupported"></span> 
+                <span class="label label-danger label-upload-info" id="filesUnsupported"></span> 
+
+              <p class="help-block">
+                  Only jpg,jpeg,png file with maximum size of 2 MB is allowed.                 
+              </p>
+              <p class='text-muted'>
+                  Even if the file extensions are changed the script makes sure only jpeg or png files are uploaded.
+                  Don't trust what you just read? Change bmp to png and try to upload!!!!
+              </p>
+              <input type="submit" class="btn btn-lg btn-primary disabled" 
+                     value="Upload" name = "imagesUpload" id="imagesUpload"/> 
+            </form>
+            <div class="media">
+                <div class="media-left">                  
+                    <img class="media-object thumbnail" src="img/preview.jpg" alt="" id="previewImage" 
+                         title = "" data-toggle = "tooltip" data-placement = "bottom" />                  
+                </div>               
+          </div>
+            <!--<div class="row">
+                <div class="col-lg-3">
+                    <div class="thumbnail">
+                        <img src="img/200x200.gif" alt="previewofImages" id="tooltipTest"
+                             data-toggle = "tooltip" 
+                             title = "<span>File Size: 1024 KB</span><br/>
+                             <span>File Extension: jpg/jpeg</span>"
+                             data-placement = "bottom" />
+                        <div class="caption">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="thumbnail">                       
+                        <i class="fa fa-circle-o fa-2x" id="edit"></i>
+                        <i class="fa fa-circle-o fa-2x" id="delete" title="Dont upload"></i>
+                        <img src="img/200x200.gif" alt="previewofImages"/>
+                        <div class="caption hide-element" id="captionForImage">
+                            <hr/>
+                            <p><label>Description:  </label><input type = "text" class="form-control"/></p>
+                            <p><label>Caption: </label><input type = "text" class="form-control"/></p>
+                            <label>Tags: </label><input type = "text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="thumbnail">
+                        <img src="img/200x200.gif" alt="previewofImages"/>
+                        <div class="caption">
+                        </div>
+                    </div>
+                </div>
+                                <div class="col-lg-3">
+                    <div class="thumbnail">
+                        <img src="img/200x200.gif" alt="previewofImages"/>
+                        <div class="caption">
+                        </div>
+                    </div>
+                </div>
+            </div>-->  
+        </div>
+        <script src="js/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+.container {
+    padding-top: 3%;
+}
+
+.hide-element {
+    display: none;
+}
+
+.glyphicon-remove-circle {
+    float: right;
+    font-size: 2em;
+    cursor: pointer;
+}
+/*
+* http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+*/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    /*box-shadow: 10px 10px 5px #888888;*/
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;    
+}
+.alert, .well {
+    box-shadow: 10px 10px 5px ;
+    -moz-box-shadow: 10px 10px 5px ;
+    -webkit-box-shadow: 10px 10px 5px ;
+}
+.label-upload-info {
+    margin-left: 2%;
+    margin-top: 3%;
+    font-size: 1.2em;
+}
+
+.thumbnail #edit {   
+    position: absolute; 
+    display: inline;
+    z-index: 1000;
+    top: 1px;
+    right: 15px;
+    cursor: pointer;
+}
+.thumbnail #delete {   
+    position: absolute; 
+    display: inline;
+    z-index: 1000;
+    margin-top: 4%;
+    top: 20px;
+    right: 15px;
+    cursor: pointer;
+}
+.caption input[type="text"] {
+    /*width: 80%;*/
+}
+
+.thumbnail .fa-check-circle {
+    color: #006dcc;
+    *color: #0044cc;
+}
+
+.thumbnail .fa-times-circle {
+    color: #E74C3C;
+}
