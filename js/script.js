@@ -43,7 +43,14 @@ Wake up..Time to update the browser');
 }
 if(proceed)
 {
-    $('input[type=file]').on("change", function(e) {
+    $('input[type=file]').on("change", function(e) { 
+        $('#previewImages').toggleClass('hide-element');
+        for(var counter=0;counter<this.files.length;counter++) {
+            var imageFile = this.files[counter];
+            var thumbnail = window.URL.createObjectURL(imageFile);
+            $('#'+counter).attr('src',thumbnail).height('200').width('200');
+            $('#preview'+counter).attr('src',thumbnail);
+        }
         var uploadFile = this.files[0];
         var uploadFilesCount = this.files.length;
         if(uploadFilesCount >4) {
@@ -60,6 +67,7 @@ if(proceed)
              *http://stackoverflow.com/questions/18299806/how-to-check-file-mime-type-with-javascript-before-upload
             */ 
           var headerArray = (new Uint8Array(e.target.result)).subarray(0,4);
+          $('#uploadDataInfo').toggleClass('hide-element');
           var magicNumbers = "";
           var fileExtension="";
           var imageSrc ="";

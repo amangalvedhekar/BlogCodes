@@ -39,12 +39,15 @@
     -moz-box-shadow: 10px 10px 5px ;
     -webkit-box-shadow: 10px 10px 5px ;
 }
-.label-upload-info {
+#uploadDataInfo p {
     margin-left: 2%;
     margin-top: 3%;
     font-size: 1.2em;
 }
-
+.media-left #edit {   
+    z-index: 1000;   
+    cursor: pointer;
+}
 .thumbnail #edit {   
     position: absolute; 
     display: inline;
@@ -73,4 +76,23 @@
 
 .thumbnail .fa-times-circle {
     color: #E74C3C;
+}
+
+.modal-header .close {
+    float: right !important;
+    margin-right: -30px !important;
+    margin-top: -25px !important;
+    background-color: white !important;
+    border-radius: 15px !important;
+    width: 30px !important;
+    height: 30px !important;
+    opacity: 1 !important;
+}
+.modal-header {
+    padding: 0px;
+    min-height: 0px;
+}
+
+.modal-dialog {
+    top: 50px;
 }
