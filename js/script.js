@@ -109,11 +109,13 @@ if(proceed)
         $("body").on("click","#delete"+index, function() {
            imagePresent = $("#"+index).attr('src');
            $("#undo"+index).removeClass('hide-element');
-            $("#"+index).attr('src','img/200x200.gif');
+            $("#"+index).attr('src','./img/200x200.gif');
+             $("#delete"+index).addClass('hide-element');
         });
         $("body").on("click","#undo"+index, function() {
             $("#"+index).attr('src',imagePresent);
             $("#undo"+index).addClass('hide-element');
+            $("#delete"+index).removeClass('hide-element');
         });
     });
     var validateImage = {
