@@ -104,6 +104,18 @@ if(proceed)
     $(document).on('click','.glyphicon-remove-circle', function() {
         $('#file-error-message').addClass('hide-element');
     });
+    $('.media').each(function(index) {
+        var imagePresent = "";
+        $("body").on("click","#delete"+index, function() {
+           imagePresent = $("#"+index).attr('src');
+           $("#undo"+index).removeClass('hide-element');
+            $("#"+index).attr('src','img/200x200.gif');
+        });
+        $("body").on("click","#undo"+index, function() {
+            $("#"+index).attr('src',imagePresent);
+            $("#undo"+index).addClass('hide-element');
+        });
+    });
     var validateImage = {
         magicNumbersForExtension : function(event) {
             var headerArray = (new Uint8Array(event.target.result)).subarray(0,4);
