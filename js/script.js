@@ -1,7 +1,8 @@
 $(document).ready(function() {
       $('[data-toggle="tooltip"]').tooltip({
           html: true
-      }); 
+      });       
+      $('.media').addClass('hide-element');
      $('#imagesUploadForm').submit( function (evt) {
         evt.preventDefault();
     });
@@ -45,11 +46,13 @@ if(proceed)
 {
     $('input[type=file]').on("change", function(e) { 
         var counter = 0;
+        var modalPreviewItems = "";      
         var input = this.files;
         $('#previewImages').removeClass('hide-element');                    
         $('#imagesUpload').removeClass('disabled');
         var successUpload = 0;
         var failedUpload = 0;
+        var extraFiles = 0;
         var size = input.length;
         $(input).each(function () {
             var reader = new FileReader();
@@ -61,23 +64,37 @@ if(proceed)
                 var fileSize = validateImage.isUploadedFileSizeValid(uploadImage);
                 var extension = validateImage.uploadFileExtension(uploadImage);
                 var isValidImage = validateImage.validateExtensionToMagicNumbers(magicNumbers);
-                var thumbnail = validateImage.generateThumbnail(uploadImage);                
-                console.log(magicNumbers+" filesize: "+fileSize+" extension"+extension+"magic number validation: "+isValidImage);                
-                if(fileSize && isValidImage) {                    
-                    $('#'+counter).attr('src',thumbnail).height('200');
-                    $('#preview'+counter).attr('src',imageSrc);
+                var thumbnail = validateImage.generateThumbnail(uploadImage);                                
+                if(fileSize && isValidImage) {    
+                    $('#'+counter).parents('.media').removeClass('hide-element');
+                    $('#'+counter).attr('src',thumbnail).height('200');                    
                     $('#uploadDataInfo').removeClass('hide-element').addClass('alert-success');
                     successUpload++;
-                    console.log(size);
+                    modalPreviewItems += carouselInsideModal.createItemsForSlider(thumbnail,counter);
+                    
                 }else {
-                    $('#uploadDataInfo').removeClass('hide-element alert-success').addClass('alert-warning');
-                    $('#'+counter).parents('.media').addClass('hide-element');
+                    $('#uploadDataInfo').removeClass('hide-element alert-success').addClass('alert-warning');                    
                     failedUpload++;
                 }
                 counter++;
-                if(counter === size) {                    
-                    $('#filesCount').html(successUpload+ " files are ready to upload");                    
-                    $('#filesUnsupported').html(failedUpload+" files were not selected for upload");                    
+                if(counter === size) {                       
+                    $('#myCarousel').append(carouselInsideModal.createIndicators(successUpload,"myCarousel"));
+                    $('#previewItems').append(modalPreviewItems);
+                    $('#previewItems .item').first().addClass('active');
+                    $('#carouselIndicators > li').first().addClass('active');
+                    $('#myCarousel').carousel();
+                    if(size > 4) {
+                        $('#toManyFilesUploaded').html("Only files displayed below will be uploaded");
+                        extraFiles = size-4;
+                    }
+                        
+                    $('#filesCount').html(successUpload+ " files are ready to upload");
+                    if(failedUpload !== 0 || extraFiles!==0) {
+                        failedUpload === 0 ? "" : failedUpload;
+                        extraFiles === 0 ? "" : extraFiles;
+                        $('#filesUnsupported').html(failedUpload+extraFiles+" files were not selected for upload");                    
+                    }
+                        
                 }
             };          
         });
@@ -134,6 +151,20 @@ if(proceed)
                 imageSrc = window.webkitURL.createObjectURL(uploadImage);
             return imageSrc;
         }
+    };
+    var carouselInsideModal = {
+      createIndicators : function(carouselLength,dataTarget) {
+          var carouselIndicators = '<ol class = "carousel-indicators" id="carouselIndicators">';
+          for(var counter = 0; counter <carouselLength; counter++) {
+              carouselIndicators += '<li data-target = "#'+dataTarget+'"data-slide-to="'+counter+'"></li>';
+          }
+          carouselIndicators += "</ol>";
+          return carouselIndicators;
+      },
+      createItemsForSlider : function(imgSrc,counter) {          
+          var item = '<div class = "item">'+'<img src="'+imgSrc+'" id="preview'+counter +'" /></div>';
+          return item;
+      }
     };
 }
 });
