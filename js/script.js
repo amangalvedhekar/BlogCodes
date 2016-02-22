@@ -44,88 +44,96 @@ Wake up..Time to update the browser');
 if(proceed)
 {
     $('input[type=file]').on("change", function(e) { 
-        $('#previewImages').toggleClass('hide-element');
-        for(var counter=0;counter<this.files.length;counter++) {
-            var imageFile = this.files[counter];
-            var thumbnail = window.URL.createObjectURL(imageFile);
-            $('#'+counter).attr('src',thumbnail).height('200').width('200');
-            $('#preview'+counter).attr('src',thumbnail);
-        }
-        var uploadFile = this.files[0];
-        var uploadFilesCount = this.files.length;
-        if(uploadFilesCount >4) {
-           $('#toManyFilesUploaded').html("Only 4 files displayed below will be uploaded");
-        }
-        var successFiles = 0;
-        var unsuccessFiles = 0;
-        $('#filesCount').html(uploadFilesCount + " files selected");
-        var readerObject = new FileReader();
-        /*var imageObject = new Image();*/
-      
-        readerObject.onload = function(e) {
-           /*this code was taken from stack overflow
-             *http://stackoverflow.com/questions/18299806/how-to-check-file-mime-type-with-javascript-before-upload
-            */ 
-          var headerArray = (new Uint8Array(e.target.result)).subarray(0,4);
-          $('#uploadDataInfo').toggleClass('hide-element');
-          var magicNumbers = "";
-          var fileExtension="";
-          var imageSrc ="";
-          var fileSize = uploadFile.size;
-          var maximumSize = 2097152;
-          for(var counter=0;counter < headerArray.length ; counter++)
-          {
-              magicNumbers += headerArray[counter].toString(16);
-          }
-          var imageType ="";
-          imageType = uploadFile.type.toLowerCase();
-        fileExtension = imageType.substr((imageType.lastIndexOf('/') + 1));
-        console.log (magicNumbers);
-        if(fileSize <= maximumSize) {
-             if(magicNumbers.toLowerCase()==="ffd8ffe0" || magicNumbers.toLowerCase()==="ffd8ffe1" ||
-                     magicNumbers.toLowerCase()==="ffd8ffe8" ||
-                     magicNumbers.toLocaleLowerCase()==="89504e47") {
-                 //file uploaded was in proper format and proper size
-                        if(window.URL)
-                            imageSrc = window.URL.createObjectURL(uploadFile);
-                        else 
-                            imageSrc = window.webkitURL.createObjectURL(uploadFile);
-                $('#previewImage').closest('.media').removeClass('hide-element');
-                 $('#previewImage').attr('src',imageSrc ).height('200').width('200');
-                 $('#previewImage').attr('title',"File Size: "+ fileSize );
-                 $('#file-error-message').addClass('hide-element');
-                 $('#imagesUpload').removeClass('disabled');
-                 successFiles++;
-                 $('#filesSupported').html(successFiles + " file ready to upload");
-        }
-        else {
-                 $('#previewImage').closest('.media').addClass('hide-element');
-                 $('#previewImage').attr('src','');
-                  $('#errorMessaage').addClass('hide-element');
-                 $('#file-error-message').removeClass('hide-element').addClass('alert-danger').find('p').html('<span class="glyphicon glyphicon-exclamation-sign"></span>\n\
-            <span class="sr-only">Warning:</span>The file uploaded is of not proper format. You file uploaded\n\
-            has <strong>'+fileExtension+'</strong> which is not acceptible or has been tampered.File formts accepted are:\n\
-<ol><li>jpg/jpeg</li><li>png</li></ol>');
-                    unsuccessFiles++;
-                    $('#filesUnsupported').html(unsuccessFiles + ' file will be ommited');
-        }
-        }
-        else {
-            unsuccessFiles++;
-            $('#filesUnsupported').html(unsuccessFiles + ' file will be ommited');
-             $('#previewImage').closest('.media').addClass('hide-element');
-                 $('#previewImage').attr('src','');
-                  $('#errorMessaage').addClass('hide-element');
-                 $('#file-error-message').removeClass('hide-element').addClass('alert-danger').find('p').html('<span class="glyphicon glyphicon-exclamation-sign"></span>\n\
-            <span class="sr-only">Warning:</span>The file uploaded is bigger than allowed file size.File uploaded has size of '
-                        +~~(fileSize/1024)+' KB');
-        }
-       
-        };
-         readerObject.readAsArrayBuffer(uploadFile);                  
+        var counter = 0;
+        var input = this.files;
+        $('#previewImages').removeClass('hide-element');                    
+        $('#imagesUpload').removeClass('disabled');
+        var successUpload = 0;
+        var failedUpload = 0;
+        var size = input.length;
+        $(input).each(function () {
+            var reader = new FileReader();
+            var uploadImage = this;
+            console.log(this);
+            reader.readAsArrayBuffer(this);            
+            reader.onload = function (e) { 
+                var magicNumbers = validateImage.magicNumbersForExtension(e);
+                var fileSize = validateImage.isUploadedFileSizeValid(uploadImage);
+                var extension = validateImage.uploadFileExtension(uploadImage);
+                var isValidImage = validateImage.validateExtensionToMagicNumbers(magicNumbers);
+                var thumbnail = validateImage.generateThumbnail(uploadImage);                
+                console.log(magicNumbers+" filesize: "+fileSize+" extension"+extension+"magic number validation: "+isValidImage);                
+                if(fileSize && isValidImage) {                    
+                    $('#'+counter).attr('src',thumbnail).height('200');
+                    $('#preview'+counter).attr('src',imageSrc);
+                    $('#uploadDataInfo').removeClass('hide-element').addClass('alert-success');
+                    successUpload++;
+                    console.log(size);
+                }else {
+                    $('#uploadDataInfo').removeClass('hide-element alert-success').addClass('alert-warning');
+                    $('#'+counter).parents('.media').addClass('hide-element');
+                    failedUpload++;
+                }
+                counter++;
+                if(counter === size) {                    
+                    $('#filesCount').html(successUpload+ " files are ready to upload");                    
+                    $('#filesUnsupported').html(failedUpload+" files were not selected for upload");                    
+                }
+            };          
+        });
+    
+        
     }); 
     $(document).on('click','.glyphicon-remove-circle', function() {
         $('#file-error-message').addClass('hide-element');
     });
+    var validateImage = {
+        magicNumbersForExtension : function(event) {
+            var headerArray = (new Uint8Array(event.target.result)).subarray(0,4);
+            var magicNumber = "";
+             for(var counter=0;counter < headerArray.length ; counter++)
+          {
+              magicNumber += headerArray[counter].toString(16);
+          }
+            return magicNumber;
+        },
+        isUploadedFileSizeValid : function(fileUploaded) {
+            var fileSize =  fileUploaded.size;
+            var maximumSize = 2097125;
+            var isValid = "";
+            if(fileSize <= maximumSize) {
+                isValid = true;
+            }else {
+                isValid = false;
+            }
+            return isValid;
+        },
+        uploadFileExtension : function(fileUploaded) {
+            var fileExtension="";
+            var imageType ="";
+            imageType = fileUploaded.type.toLowerCase();
+            fileExtension = imageType.substr((imageType.lastIndexOf('/') + 1));
+            return fileExtension;
+        },
+        validateExtensionToMagicNumbers : function(magicNumbers) {
+            var properExtension = "";
+            if(magicNumbers.toLowerCase()==="ffd8ffe0" || magicNumbers.toLowerCase()==="ffd8ffe1" ||
+                 magicNumbers.toLowerCase()==="ffd8ffe8" ||
+                 magicNumbers.toLocaleLowerCase()==="89504e47") {
+             properExtension = true;
+             
+            } else {
+                properExtension = false;
+            }
+            return properExtension;
+        },
+        generateThumbnail : function(uploadImage) {
+            if(window.URL)
+                imageSrc = window.URL.createObjectURL(uploadImage);
+            else 
+                imageSrc = window.webkitURL.createObjectURL(uploadImage);
+            return imageSrc;
+        }
+    };
 }
 });
