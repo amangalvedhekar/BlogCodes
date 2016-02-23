@@ -44,10 +44,11 @@ Wake up..Time to update the browser');
 }
 if(proceed)
 {
+    var input = "";
     $('input[type=file]').on("change", function(e) { 
         var counter = 0;
         var modalPreviewItems = "";      
-        var input = this.files;
+        input = this.files;
         $('#previewImages').removeClass('hide-element');                    
         $('#imagesUpload').removeClass('disabled');
         var successUpload = 0;
@@ -82,7 +83,10 @@ if(proceed)
                     $('#previewItems').append(modalPreviewItems);
                     $('#previewItems .item').first().addClass('active');
                     $('#carouselIndicators > li').first().addClass('active');
-                    $('#myCarousel').carousel();
+                    $('#myCarousel').carousel({
+                            interval: 2000,
+                            cycle: true
+                    });
                     if(size > 4) {
                         $('#toManyFilesUploaded').html("Only files displayed below will be uploaded");
                         extraFiles = size-4;
@@ -103,19 +107,41 @@ if(proceed)
     }); 
     $(document).on('click','.glyphicon-remove-circle', function() {
         $('#file-error-message').addClass('hide-element');
-    });
+    });    
+    var toBeDeleted =[];
+    var valuesEntered = new Object();
+    var eachImageValues = [];
+    valuesEntered.eachImageValues = eachImageValues;
     $('.media').each(function(index) {
-        var imagePresent = "";
-        $("body").on("click","#delete"+index, function() {
+        var imagePresent = "";        
+        $("body").on("click","#delete"+index, function() {            
            imagePresent = $("#"+index).attr('src');
            $("#undo"+index).removeClass('hide-element');
-            $("#"+index).attr('src','./img/200x200.gif');
-             $("#delete"+index).addClass('hide-element');
+           $("#"+index).attr('src','./img/200x200.gif');
+           $("#delete"+index).addClass('hide-element');
+           toBeDeleted.push(index);
+           //console.log(toBeDeleted);                      
+           $("#delete"+index).parent().find('input[type="text"]').each(function() {
+               var attribute = $(this).attr('name');
+               var attributeValue = $(this).val();
+              var eachImageValue = {
+                 attribute : attributeValue  
+              } ;
+              valuesEntered.eachImageValues.push(eachImageValue);
+           });                     
+           
+           console.log(valuesEntered);
+           $("#delete"+index).parent().find('input[type="text"]').prop('disabled',true).addClass('disabled').val("");           
         });
         $("body").on("click","#undo"+index, function() {
             $("#"+index).attr('src',imagePresent);
             $("#undo"+index).addClass('hide-element');
             $("#delete"+index).removeClass('hide-element');
+            var indexToDelete = toBeDeleted.indexOf(index);
+            if(indexToDelete > -1) {
+                toBeDeleted.splice(indexToDelete,1);
+                $("#delete"+index).parent().find('input[type="text"]').prop('disabled',false).removeClass('disabled');           
+            }
         });
     });
     var validateImage = {

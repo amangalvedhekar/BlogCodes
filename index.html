@@ -57,9 +57,9 @@
                          title = "" data-toggle = "tooltip" data-placement = "bottom" />                  
                 </div>
                 <div class="media-body">
-                     <p><label>Description:  </label><input type = "text" class="form-control"/></p>
-                            <p><label>Caption: </label><input type = "text" class="form-control"/></p>
-                            <p><label>Tags: </label><input type = "text" class="form-control"/></p>
+                     <p><label for="description">Description:  </label><input type = "text" class="form-control" value="" name="description"/></p>
+                            <p><label for="caption">Caption: </label><input type = "text" class="form-control" value="" name="caption"/></p>
+                            <p><label for="tags">Tags: </label><input type = "text" class="form-control" value="" name="tags"/></p>
                              <a role="button" class="btn btn-primary hide-element" id="undo0">Undo</a>
                             <a role="button" class="btn btn-danger pull-right" id="delete0">Delete</a>
                 </div>
@@ -70,9 +70,9 @@
                          title = "" data-toggle = "tooltip" data-placement = "bottom" />                 
                 </div>
                 <div class="media-body">
-                     <p><label>Description:  </label><input type = "text" class="form-control"/></p>
-                            <p><label>Caption: </label><input type = "text" class="form-control"/></p>
-                            <p><label>Tags: </label><input type = "text" class="form-control"/></p>
+                     <p><label for="description">Description:  </label><input type = "text" class="form-control" value="" name="description"/></p>
+                            <p><label for="caption">Caption: </label><input type = "text" class="form-control" value="" name="caption"/></p>
+                            <p><label for="tags">Tags: </label><input type = "text" class="form-control" value="" name="tags"/></p>
                             <a role="button" class="btn btn-primary hide-element" id="undo1">Undo</a>
                             <a role="button" class="btn btn-danger pull-right" id="delete1">Delete</a>
                 </div>
@@ -83,9 +83,9 @@
                          title = "" data-toggle = "tooltip" data-placement = "bottom" />                 
                 </div>
                 <div class="media-body">
-                     <p><label>Description:  </label><input type = "text" class="form-control"/></p>
-                            <p><label>Caption: </label><input type = "text" class="form-control"/></p>
-                            <p><label>Tags: </label><input type = "text" class="form-control"/></p>
+                     <p><label for="description">Description:  </label><input type = "text" class="form-control" value="" name="description"/></p>
+                            <p><label for="caption">Caption: </label><input type = "text" class="form-control" value="" name="caption"/></p>
+                            <p><label for="tags">Tags: </label><input type = "text" class="form-control" value="" name="tags"/></p>
                             <a role="button" class="btn btn-primary hide-element" id="undo2">Undo</a>
                             <a role="button" class="btn btn-danger pull-right" id="delete2">Delete</a>
                 </div>
@@ -96,14 +96,17 @@
                          title = "" data-toggle = "tooltip" data-placement = "bottom" />                 
                 </div>
                 <div class="media-body">
-                     <p><label>Description:  </label><input type = "text" class="form-control"/></p>
-                            <p><label>Caption: </label><input type = "text" class="form-control"/></p>
-                            <p><label>Tags: </label><input type = "text" class="form-control"/></p>
+                     <p><label for="description">Description:  </label>
+                         <input type = "text" class="form-control" name="description" value=""/></p>
+                            <p><label for="caption">Caption: </label>
+                                <input type = "text" class="form-control" name="caption" value=""/></p>
+                            <p><label for="tags">Tags: </label>
+                                <input type = "text" class="form-control" name="tags" value=""/></p>
                             <a role="button" class="btn btn-primary hide-element" id="undo3">Undo</a>
                             <a role="button" class="btn btn-danger pull-right" id="delete3">Delete</a>
                 </div>
           </div>
-                <button class="btn btn-primary pull-left disabled" id = "sendImagesToServer" disabled>Update &amp; Preview</button>
+                <button class="btn btn-primary pull-left" id = "sendImagesToServer">Update &amp; Preview</button>
         </div>  
             <!--<div class="row">
                 <div class="col-lg-3">
@@ -156,7 +159,7 @@
                 <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>        
             </div>
             <div class="modal-body">
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div id="myCarousel" class="carousel slide">
                     <div class="carousel-inner" role="listbox" id="previewItems">   
                     </div>
                     <!-- Left and right controls -->
