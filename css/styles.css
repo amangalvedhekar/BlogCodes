@@ -96,3 +96,6 @@
 .modal-dialog {
     top: 50px;
 }
+.media-left img {
+    cursor: pointer;
+}

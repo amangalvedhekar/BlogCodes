@@ -109,29 +109,23 @@ if(proceed)
         $('#file-error-message').addClass('hide-element');
     });    
     var toBeDeleted =[];
-    var valuesEntered = new Object();
-    var eachImageValues = [];
-    valuesEntered.eachImageValues = eachImageValues;
+    var eachImageValues = [];     
     $('.media').each(function(index) {
-        var imagePresent = "";        
+        var imagePresent = "";             
         $("body").on("click","#delete"+index, function() {            
            imagePresent = $("#"+index).attr('src');
            $("#undo"+index).removeClass('hide-element');
            $("#"+index).attr('src','./img/200x200.gif');
            $("#delete"+index).addClass('hide-element');
            toBeDeleted.push(index);
-           //console.log(toBeDeleted);                      
+           console.log(toBeDeleted);                      
            $("#delete"+index).parent().find('input[type="text"]').each(function() {
                var attribute = $(this).attr('name');
                var attributeValue = $(this).val();
-              var eachImageValue = {
-                 attribute : attributeValue  
-              } ;
-              valuesEntered.eachImageValues.push(eachImageValue);
-           });                     
-           
-           console.log(valuesEntered);
-           $("#delete"+index).parent().find('input[type="text"]').prop('disabled',true).addClass('disabled').val("");           
+               eachImageValues[attribute+index] =  attributeValue;             
+              // console.log(valuesEntered);
+           });                                         
+           $("#delete"+index).parent().find('input[type="text"]').prop('disabled',true).addClass('disabled');           
         });
         $("body").on("click","#undo"+index, function() {
             $("#"+index).attr('src',imagePresent);
