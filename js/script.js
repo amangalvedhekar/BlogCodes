@@ -165,17 +165,18 @@ if(proceed)
         arrayList.push(imageData2);
         console.log(JSON.stringify(arrayList));*/
         var counter = 0;
+        var imageData ="";
+        var consolidatedData = [];
         $('.media').each(function() {
                 var description = "";
                 var caption = "";
-                var tags = "";    
-                var consolidatedData = [];
+                var tags = "";                                    
             $('.media').find('input[type="text"]').each(function(index) {                    
                 if((index ===0 || index <= 11)&&counter<=11) {
                     counter++;
                     var attributeName = "";
                     var attributeValue = "";                
-                    var imageData ="";
+                    
                     attributeName = $(this).attr('name');
                     attributeValue = $(this).val();
                     switch(attributeName) {
@@ -194,24 +195,26 @@ if(proceed)
                         default :
                             break;
                     }
-                    if(counter%3 === 0){
-                        imageData = new imageInformation(description,caption,tags,false);
+                    if(counter%3 === 0){                       
+                        imageData = new imageInformation(description,caption,tags);
                         consolidatedData.push(imageData);
-                        JSON.stringify(consolidatedData);
-                        console.log(consolidatedData);
-                    }
-                    
-                    //
-                }
-                
+                        //JSON.stringify(consolidatedData);                        
+                        //console.log(toBeDeleted);
+                    }                                       
+                }                
             });
         });
+        imageData = new deleteList(toBeDeleted);
+        consolidatedData.push(imageData);
+        console.log(consolidatedData);
     });
-    function imageInformation(description, caption, tags, skipDelete) {
+    function imageInformation(description, caption, tags) {
         this.description = description;
         this.caption =caption;
-        this.tags = tags;
-        this.skipDelete = skipDelete;
+        this.tags = tags;        
+    };
+    function deleteList(toBeDeleted) {
+        this.toBeDeleted = toBeDeleted;
     };
     var validateImage = {
         magicNumbersForExtension : function(event) {
