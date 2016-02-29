@@ -53,10 +53,6 @@ if(proceed)
         $($(this)[0].files).each(function(i, file) {
             formData.append('file-'+i, file);
         });
-//        $.each($(this)[0].files, function(i, file) {
-//     formData.append('file-'+i, file);
-// });
-        // formData.append('filesToUpload',input);
         $('#previewImages').removeClass('hide-element');                    
         $('#imagesUpload').removeClass('disabled');
         var successUpload = 0;
@@ -172,18 +168,71 @@ if(proceed)
         arrayList.push(imageData);
         arrayList.push(imageData2);
         console.log(JSON.stringify(arrayList));*/
+        /*
+         * custom event for ajax calls code taken from below link:
+         * http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously
+         * $(':button').click(function(){
+    var formData = new FormData($('form')[0]);
+    $.ajax({
+        url: 'upload.php',  //Server script to process data
+        type: 'POST',
+        xhr: function() {  // Custom XMLHttpRequest
+            var myXhr = $.ajaxSettings.xhr();
+            if(myXhr.upload){ // Check if upload property exists
+                myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+            }
+            return myXhr;
+        },
+        //Ajax events
+        beforeSend: beforeSendHandler,
+        success: completeHandler,
+        error: errorHandler,
+        // Form data
+        data: formData,
+        //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+        function progressHandlingFunction(e){
+    if(e.lengthComputable){
+        $('progress').attr({value:e.loaded,max:e.total});
+    }
+}
+         */
         $.ajax({
             type: 'POST',
             url: 'upload.php',
+            xhr: function() {
+              var customXhr = $.ajaxSettings.xhr();
+              if(customXhr.upload) {
+                  customXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+              }
+              return customXhr;
+            },
             data: formData,
+            dataType: 'json',
             cache: false,
             contentType: false,
             processData: false,
-            success: function(data) {                
-                console.log(data);
-        }
+            success: function(data) {     
+                $('#ajaxLoad').addClass('hide-element');
+                $('#successResponse').html(data.message);
+                console.log(data.message+" inside success function");
+            },
+            error: function(data) {
+                $('#successResponse').html(data.responseJSON.message).addClass('label label-danger').css({'font-size': '18px'});
+                console.log(data.responseJSON.message+" inside error function");
+            }
         }       
         );
+
+        function progressHandlingFunction(e) {
+          if(e.lengthComputable) {
+              $('#progressIndicator').css({'width':e.loaded});
+          }  
+        };
         var counter = 0;
         var imageData ="";
         var consolidatedData = [];
