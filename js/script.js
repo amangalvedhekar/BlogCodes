@@ -45,10 +45,18 @@ Wake up..Time to update the browser');
 if(proceed)
 {
     var input = "";
+    var formData = new FormData();
     $('input[type=file]').on("change", function(e) { 
         var counter = 0;
         var modalPreviewItems = "";      
-        input = this.files;
+        input = this.files;     
+        $($(this)[0].files).each(function(i, file) {
+            formData.append('file-'+i, file);
+        });
+//        $.each($(this)[0].files, function(i, file) {
+//     formData.append('file-'+i, file);
+// });
+        // formData.append('filesToUpload',input);
         $('#previewImages').removeClass('hide-element');                    
         $('#imagesUpload').removeClass('disabled');
         var successUpload = 0;
@@ -65,7 +73,7 @@ if(proceed)
                 var fileSize = validateImage.isUploadedFileSizeValid(uploadImage);
                 var extension = validateImage.uploadFileExtension(uploadImage);
                 var isValidImage = validateImage.validateExtensionToMagicNumbers(magicNumbers);
-                var thumbnail = validateImage.generateThumbnail(uploadImage);                                
+                var thumbnail = validateImage.generateThumbnail(uploadImage);                  
                 if(fileSize && isValidImage) {    
                     $('#'+counter).parents('.media').removeClass('hide-element');
                     $('#'+counter).attr('src',thumbnail).height('200');                    
@@ -143,7 +151,7 @@ if(proceed)
             var indexToDelete = toBeDeleted.indexOf(index);
             if(indexToDelete > -1) {
                 toBeDeleted.splice(indexToDelete,1);
-                console.log(toBeDeleted);
+               // console.log(toBeDeleted);
                 $("#delete"+index).parent().find('input[type="text"]').prop('disabled',false).removeClass('disabled');           
             }
             if(toBeDeleted.length === 4) {
@@ -164,6 +172,18 @@ if(proceed)
         arrayList.push(imageData);
         arrayList.push(imageData2);
         console.log(JSON.stringify(arrayList));*/
+        $.ajax({
+            type: 'POST',
+            url: 'upload.php',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {                
+                console.log(data);
+        }
+        }       
+        );
         var counter = 0;
         var imageData ="";
         var consolidatedData = [];
@@ -182,15 +202,15 @@ if(proceed)
                     switch(attributeName) {
                         case "description" : 
                             description = attributeValue;
-                            console.log(description);
+                           // console.log(description);
                             break;
                         case "caption" :
                             caption = attributeValue;
-                            console.log(caption);
+                           // console.log(caption);
                             break;
                         case "tags" : 
                             tags = attributeValue;
-                            console.log(tags);
+                           // console.log(tags);
                             break;
                         default :
                             break;
@@ -206,7 +226,8 @@ if(proceed)
         });
         imageData = new deleteList(toBeDeleted);
         consolidatedData.push(imageData);
-        console.log(JSON.stringify(consolidatedData));
+        //
+        //console.log(JSON.stringify(consolidatedData));
     });
     function imageInformation(description, caption, tags) {
         this.description = description;
