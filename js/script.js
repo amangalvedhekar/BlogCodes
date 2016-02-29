@@ -206,7 +206,7 @@ if(proceed)
         });
         imageData = new deleteList(toBeDeleted);
         consolidatedData.push(imageData);
-        console.log(consolidatedData);
+        console.log(JSON.stringify(consolidatedData));
     });
     function imageInformation(description, caption, tags) {
         this.description = description;
