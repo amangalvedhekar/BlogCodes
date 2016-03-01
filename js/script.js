@@ -51,7 +51,7 @@ if(proceed)
         var modalPreviewItems = "";      
         input = this.files;     
         $($(this)[0].files).each(function(i, file) {
-            formData.append('file-'+i, file);
+            formData.append("file[]", file);
         });
         $('#previewImages').removeClass('hide-element');                    
         $('#imagesUpload').removeClass('disabled');
@@ -201,38 +201,7 @@ if(proceed)
     }
 }
          */
-        $.ajax({
-            type: 'POST',
-            url: 'upload.php',
-            xhr: function() {
-              var customXhr = $.ajaxSettings.xhr();
-              if(customXhr.upload) {
-                  customXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-              }
-              return customXhr;
-            },
-            data: formData,
-            dataType: 'json',
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data) {     
-                $('#ajaxLoad').addClass('hide-element');
-                $('#successResponse').html(data.message);
-                console.log(data.message+" inside success function");
-            },
-            error: function(data) {
-                $('#successResponse').html(data.responseJSON.message).addClass('label label-danger').css({'font-size': '18px'});
-                console.log(data.responseJSON.message+" inside error function");
-            }
-        }       
-        );
-
-        function progressHandlingFunction(e) {
-          if(e.lengthComputable) {
-              $('#progressIndicator').css({'width':e.loaded});
-          }  
-        };
+        
         var counter = 0;
         var imageData ="";
         var consolidatedData = [];
@@ -275,6 +244,40 @@ if(proceed)
         });
         imageData = new deleteList(toBeDeleted);
         consolidatedData.push(imageData);
+        var sendData = JSON.stringify(consolidatedData);
+        formData.append("important",sendData);
+        $.ajax({
+            type: 'POST',
+            url: 'upload.php',
+            xhr: function() {
+              var customXhr = $.ajaxSettings.xhr();
+              if(customXhr.upload) {
+                  customXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+              }
+              return customXhr;
+            },
+            data: formData,
+            dataType: 'json',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {     
+                $('#ajaxLoad').addClass('hide-element');
+                $('#successResponse').html(data.message);
+                console.log(data.message+" inside success function");
+            },
+            error: function(data) {
+                $('#successResponse').html(data.responseJSON.message).addClass('label label-danger').css({'font-size': '18px'});
+                console.log(data.responseJSON.message+" inside error function");
+            }
+        }       
+        );
+
+        function progressHandlingFunction(e) {
+          if(e.lengthComputable) {
+              $('#progressIndicator').css({'width':e.loaded});
+          }  
+        };
         //
         //console.log(JSON.stringify(consolidatedData));
     });
