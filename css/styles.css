@@ -99,3 +99,16 @@
 .media-left img {
     cursor: pointer;
 }
+.label-tags {
+    font-size: 16px;
+    padding: 1%;
+    color: black;
+    background-color: white;
+    border: 1px solid blue;
+    border-radius: 4px;    
+    margin: 3px;
+}
+
+.label-tags i {
+    cursor: pointer;
+}

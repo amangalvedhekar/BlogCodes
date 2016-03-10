@@ -13,7 +13,30 @@
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script> 
     </head>
-    <body>         
+    <body>        
+       
+        <!--Modal to display when image is clicked-->
+        <div id="individualImagePreview" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>        
+            </div>
+            <div class="modal-body">
+                <img src="" alt="default image" class="img-responsive" id="individualPreview"/>
+            </div>
+            <div class="modal-footer" id="displayTags">
+                <div class="pull-left">
+                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+        <!--Modal to display progress information while uploading data to server-->
         <div id="progressModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
 
@@ -80,21 +103,27 @@
             <div class="media">
                 <div class="media-left">
                     
-                    <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="0" 
-                         title = "" data-toggle = "tooltip" data-placement = "bottom" />                  
+                    <img class="media-object thumbnail" 
+                         src="img/200x200.gif" 
+                         alt="" id="0" 
+                         title = "" 
+                         data-toggle="modal" data-target="#individualImagePreview" />                  
                 </div>
                 <div class="media-body">
                      <p><label for="description">Description:  </label><input type = "text" class="form-control" value="" name="description"/></p>
                             <p><label for="caption">Caption: </label><input type = "text" class="form-control" value="" name="caption"/></p>
-                            <p><label for="tags">Tags: </label><input type = "text" class="form-control" value="" name="tags"/></p>
+                            <p><label for="tags">Tags:max of 3 tags.comma seperated </label><input type = "text" class="form-control" value="" name="tags"/></p>
                              <a role="button" class="btn btn-primary hide-element" id="undo0">Undo</a>
                             <a role="button" class="btn btn-danger pull-right" id="delete0">Delete</a>
                 </div>
           </div>     
           <div class="media">                            
                 <div class="media-left">                                         
-                    <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="1" 
-                         title = "" data-toggle = "tooltip" data-placement = "bottom" />                 
+                    <img class="media-object thumbnail" 
+                         src="img/200x200.gif" alt="" id="1" 
+                         title = ""                                                  
+                         data-toggle = "modal" 
+                         data-target="#individualImagePreview"/>                 
                 </div>
                 <div class="media-body">
                      <p><label for="description">Description:  </label><input type = "text" class="form-control" value="" name="description"/></p>
@@ -106,8 +135,10 @@
           </div>
           <div class="media">                            
                 <div class="media-left">                                         
-                    <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="2" 
-                         title = "" data-toggle = "tooltip" data-placement = "bottom" />                 
+                    <img class="media-object thumbnail" 
+                         src="img/200x200.gif" alt="" id="2" 
+                         title = "" 
+                         data-toggle="modal" data-target="#individualImagePreview" />                 
                 </div>
                 <div class="media-body">
                      <p><label for="description">Description:  </label><input type = "text" class="form-control" value="" name="description"/></p>
@@ -119,8 +150,9 @@
           </div>
             <div class="media">                            
                 <div class="media-left">                                         
-                    <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="3" 
-                         title = "" data-toggle = "tooltip" data-placement = "bottom" />                 
+                    <img class="media-object thumbnail" 
+                         src="img/200x200.gif" alt="" id="3" 
+                         data-toggle="modal" data-target="#individualImagePreview" />                 
                 </div>
                 <div class="media-body">
                      <p><label for="description">Description:  </label>
@@ -180,7 +212,9 @@
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>--><br/><br/>
+           <!--  <span class="label-tags label">#PlayStation <i class="fa fa-times"></i></span>
+             <span class="label-tags label">#Sony <i class="fa fa-times"></i></span>-->
             <!-- Modal for preview-->
            
 <div id="myModal" class="modal fade" role="dialog">

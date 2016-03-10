@@ -1,6 +1,6 @@
-$(document).ready(function() {
-      $('[data-toggle="tooltip"]').tooltip({
-          html: true
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip({
+        html: true
       });       
       $('.media').addClass('hide-element');
      $('#imagesUploadForm').submit( function (evt) {
@@ -112,6 +112,22 @@ if(proceed)
     $(document).on('click','.glyphicon-remove-circle', function() {
         $('#file-error-message').addClass('hide-element');
     });    
+    $("body").on("click", ".media-object", function() {     
+        var image = $(this).attr('src');               
+        $("#individualPreview").attr('src', image);
+        var tags = [];
+        var displayTagsWithFormat = "";
+        ($(this).parents('.media').find('input[type="text"]')).each(function() {
+            if($(this).attr('name') === 'tags') {
+                tags = $(this).val().split(",");
+                $.each(tags,function(index) {
+                    displayTagsWithFormat += "<span class = 'label-tags label'>#"+tags[index]+"  <i class='fa fa-times'></i></span>";
+                });
+                $("#displayTags").html("<div class='pull-left'>"+displayTagsWithFormat+"</div>");
+                //console.log(tags);
+            }
+        });
+    });
     var toBeDeleted =[];
     var eachImageValues = [];     
     $('.media').each(function(index) {        
@@ -129,7 +145,7 @@ if(proceed)
                eachImageValues[attribute+index] =  attributeValue;             
                //console.log(eachImageValues);
          
-           });
+           });           
                    //console.log(toBeDeleted.length);
         if(toBeDeleted.length === 4) {
             $('#sendImagesToServer').prop('disabled',true).html('No Files to Upload');
